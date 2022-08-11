@@ -1,7 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 // import { createReducer, createAction } from '@reduxjs/toolkit';
 
-import { contactsSlise } from './contactsSlice';
+import { persistedContactsReducer } from './contactsSlice';
 
 // export const addContact = createAction('contacts/add');
 // export const removeContact = createAction('contacts/remove');
@@ -26,6 +35,14 @@ import { contactsSlise } from './contactsSlice';
 
 export const store = configureStore({
   reducer: {
-    contacts: contactsSlise.reducer,
+    contacts: persistedContactsReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
+
+export const persistor = persistStore(store);
