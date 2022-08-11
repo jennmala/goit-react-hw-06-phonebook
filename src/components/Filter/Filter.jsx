@@ -1,12 +1,12 @@
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Input, Label } from './Filter.styled';
 
-import { addContact, changeFilter } from 'redux/store';
+import { filterChange } from 'redux/contactsSlice';
 
 export const Filter = () => {
   const filter = useSelector(state => state.contacts.filter);
+  console.log('filter', filter);
   const dispatch = useDispatch();
 
   return (
@@ -14,9 +14,8 @@ export const Filter = () => {
       Find contacts by name
       <Input
         type="text"
-        name="filter"
         value={filter}
-        onChange={e => dispatch(changeFilter(e.currentTarget.value))}
+        onChange={e => dispatch(filterChange(e.currentTarget.value))}
       />
     </Label>
   );
